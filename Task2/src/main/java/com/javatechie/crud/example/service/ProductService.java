@@ -45,5 +45,9 @@ public class ProductService {
         return repository.save(existingProduct);
     }
 
+      public List<Product> searchProductsWithFilters(String keyword, Double minPrice, Double maxPrice) {
+        return repository.findProductsWithFilters(keyword, minPrice, maxPrice);
+    }
+
 
 }

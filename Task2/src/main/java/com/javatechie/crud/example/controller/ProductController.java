@@ -73,4 +73,44 @@ public class ProductController {
     public ResponseEntity<?> searchProduct(@RequestParam String param) {
         return ResponseEntity.ok().body(service.getProductByName(param));
     } 
+
+
+    // v2.0.0 endpoints
+
+    @GetMapping("/api/v2/products/search")
+    public ResponseEntity<?> searchProductsWithFilters(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+        try{
+            if(keyword == null && minPrice == null && maxPrice == null) {
+                return ResponseEntity.badRequest().body("At least one filter parameter is required.");
+            }
+
+            if(minPrice != null && maxPrice != null && minPrice > maxPrice) {
+                return ResponseEntity.badRequest().body("Minimum price cannot be negative.");
+            }
+
+            if(minPrice != null && minPrice < 0) {
+                return ResponseEntity.badRequest().body("Minimum price cannot be negative.");
+            }
+
+            List<Product> products = service.searchProductsWithFilters(keyword, minPrice, maxPrice);
+            if(products.isEmpty()) {
+                return ResponseEntity.ok().body("No products found with the given filters.");
+            }
+
+            return ResponseEntity.ok().body(products);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while processing the request: " + e.getMessage());
+        
+        }
+        
+    }
+
+    @GetMapping("/api/v2/health")
+    public ResponseEntity<String> healthv2(@RequestParam String param) {
+        return ResponseEntity.ok().body("Health: Good");
+    }
+    
 }
