@@ -3,6 +3,7 @@ package com.javatechie.crud.example.controller;
 import com.javatechie.crud.example.entity.Product;
 import com.javatechie.crud.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,5 +47,17 @@ public class ProductController {
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
         return service.deleteProduct(id);
+    }
+
+
+       // v1.0.0 endpoints
+    @GetMapping("/api/v1/health")
+    public ResponseEntity<String> healthv1(@RequestParam String param) {
+        return ResponseEntity.ok().body("Health: Good");
+    }
+
+    @GetMapping("/api/v1/products")
+    public ResponseEntity<?> productsv1(@RequestParam String param) {
+        return ResponseEntity.ok().body(service.getProducts());
     }
 }
