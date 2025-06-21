@@ -60,4 +60,17 @@ public class ProductController {
     public ResponseEntity<?> productsv1(@RequestParam String param) {
         return ResponseEntity.ok().body(service.getProducts());
     }
+
+     //v1.1.0 endpoints
+
+    @GetMapping("/api/v1.1/products")
+    public ResponseEntity<?> productsv11(@RequestParam String param) {
+        return ResponseEntity.ok().body(service.getProducts()); 
+    }
+
+
+    @GetMapping("/api/v1.1/products/search")
+    public ResponseEntity<?> searchProduct(@RequestParam String param) {
+        return ResponseEntity.ok().body(service.getProductByName(param));
+    } 
 }
