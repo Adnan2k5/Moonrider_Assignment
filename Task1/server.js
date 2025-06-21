@@ -1,10 +1,13 @@
 import express from "express";
+import { config } from "dotenv";
 
 import connectDB from "./config/db.config.js";
 import router from "./routes/contacts.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+config(); // Load environment variables from .env file
 
 // Middleware
 app.use(express.json());
